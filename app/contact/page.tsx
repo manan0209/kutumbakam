@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Mail, Github, Linkedin, MessageSquare } from "lucide-react";
+import { Mail, Github, Linkedin } from "lucide-react";
 
 export default function ContactPage() {
   return (

@@ -1,90 +1,103 @@
-"use client"
+"use client";
 
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/lib/auth-context"
-import { getPortal, registerVolunteer } from "@/lib/db"
-import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react"
-import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { VolunteerShareCard } from "@/components/volunteer-share-card"
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/lib/auth-context";
+import { getPortal, registerVolunteer } from "@/lib/db";
+import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { VolunteerShareCard } from "@/components/volunteer-share-card";
+
+// Define the Volunteer interface
+interface Volunteer {
+  id: string;
+  userId: string;
+  portalId: string;
+  name: string;
+  email: string;
+  phone?: string;
+  skills: string[];
+  availability: string;
+  createdAt?: any; // This is from Firebase timestamp
+  status?: "active" | "inactive";
+}
 
 export default function VolunteerPage() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [skills, setSkills] = useState<string[]>([])
-  const [availability, setAvailability] = useState("")
-  const [portalId, setPortalId] = useState("")
-  const [portalTitle, setPortalTitle] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [loadingPortal, setLoadingPortal] = useState(false)
-  const [registeredVolunteer, setRegisteredVolunteer] = useState<Volunteer | null>(null)
-  const { user } = useAuth()
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [skills, setSkills] = useState<string[]>([]);
+  const [availability, setAvailability] = useState("");
+  const [portalId, setPortalId] = useState("");
+  const [portalTitle, setPortalTitle] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loadingPortal, setLoadingPortal] = useState(false);
+  const [registeredVolunteer, setRegisteredVolunteer] =
+    useState<Volunteer | null>(null);
+  const { user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const id = searchParams.get("portalId")
+    const id = searchParams.get("portalId");
     if (id) {
-      setPortalId(id)
-      fetchPortalDetails(id)
+      setPortalId(id);
+      fetchPortalDetails(id);
     }
 
     if (user) {
-      setName(user.displayName || "")
-      setEmail(user.email || "")
+      setName(user.displayName || "");
+      setEmail(user.email || "");
     }
-  }, [searchParams, user])
+  }, [searchParams, user]);
 
   const fetchPortalDetails = async (id: string) => {
-    setLoadingPortal(true)
+    setLoadingPortal(true);
     try {
-      const portal = await getPortal(id)
+      const portal = await getPortal(id);
       if (portal) {
-        setPortalTitle(portal.title)
+        setPortalTitle(portal.title);
       }
     } catch (error) {
-      console.error("Error fetching portal details:", error)
+      console.error("Error fetching portal details:", error);
     } finally {
-      setLoadingPortal(false)
+      setLoadingPortal(false);
     }
   }
 
   const handleSkillToggle = (skill: string) => {
-    setSkills(prev => 
-      prev.includes(skill) 
-        ? prev.filter(s => s !== skill) 
-        : [...prev, skill]
-    )
-  }
+    setSkills((prev) =>
+      prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
-    setRegisteredVolunteer(null)
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setRegisteredVolunteer(null);
 
     if (!user) {
-      setError("You must be logged in to register as a volunteer")
-      return
+      setError("You must be logged in to register as a volunteer");
+      return;
     }
 
     if (!name || !email || !portalId || skills.length === 0 || !availability) {
-      setError("Please fill in all required fields")
-      return
+      setError("Please fill in all required fields");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const volunteerData = {
@@ -94,21 +107,24 @@ export default function VolunteerPage() {
         email,
         phone,
         skills,
-        availability
-      }
+        availability,
+      };
 
-      const newVolunteer = await registerVolunteer(volunteerData)
-      setRegisteredVolunteer(newVolunteer as Volunteer)
-      setSuccess("Volunteer registration successful!")
-      
+      const newVolunteer = await registerVolunteer(volunteerData);
+      setRegisteredVolunteer(newVolunteer as Volunteer);
+      setSuccess("Volunteer registration successful!");
+
       // Don't redirect immediately so they can see the volunteer card
-    } catch (err: any) {
-      setError(err.message || "Failed to register as volunteer")
-      setRegisteredVolunteer(null)
+    } catch (err: unknown) {
+      // Fixed: properly handle unknown error type
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to register as volunteer";
+      setError(errorMessage);
+      setRegisteredVolunteer(null);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -116,7 +132,10 @@ export default function VolunteerPage() {
       <main className="flex-1">
         <div className="max-w-2xl mx-auto px-4 py-8">
           {portalId && (
-            <Link href={`/portal/${portalId}`} className="inline-flex items-center text-gray-600 hover:text-primary mb-6">
+            <Link
+              href={`/portal/${portalId}`}
+              className="inline-flex items-center text-gray-600 hover:text-primary mb-6"
+            >
               <ArrowLeft size={16} className="mr-2" />
               Back to Portal
             </Link>
@@ -124,8 +143,8 @@ export default function VolunteerPage() {
 
           <h1 className="text-3xl font-bold mb-2">Volunteer Registration</h1>
           <p className="text-gray-600 mb-8">
-            {portalTitle 
-              ? `Register as a volunteer for ${portalTitle}` 
+            {portalTitle
+              ? `Register as a volunteer for ${portalTitle}`
               : "Register as a volunteer for disaster relief efforts"}
           </p>
 
@@ -149,28 +168,38 @@ export default function VolunteerPage() {
                 Thank you for registering as a volunteer!
               </h3>
               <p className="text-green-700 mb-6">
-                You can now download your volunteer card or share it on social media.
+                You can now download your volunteer card or share it on social
+                media.
               </p>
-              <VolunteerShareCard 
+              <VolunteerShareCard
                 volunteer={registeredVolunteer}
                 portalName={portalTitle}
               />
               <div className="mt-6 text-sm text-gray-600">
-                You will be redirected to the portal page in 10 seconds, or you can go back manually.
+                You will be redirected to the portal page in 10 seconds, or you
+                can go back manually.
               </div>
-              {setTimeout(() => {
+              {/* {setTimeout(() => {
                 if (registeredVolunteer) {
                   router.push(`/portal/${registeredVolunteer.portalId}`);
                 }
-              }, 10000)}
+              }, 10000)} */}
             </div>
           )}
 
           {!user ? (
             <div className="text-center p-6 bg-gray-50 rounded-lg border mb-6">
-              <p className="text-gray-600 mb-4">You need to be logged in to register as a volunteer.</p>
+              <p className="text-gray-600 mb-4">
+                You need to be logged in to register as a volunteer.
+              </p>
               <Button asChild>
-                <a href={`/login?redirect=/volunteer${portalId ? `?portalId=${portalId}` : ''}`}>Log In</a>
+                <a
+                  href={`/login?redirect=/volunteer${
+                    portalId ? `?portalId=${portalId}` : ""
+                  }`}
+                >
+                  Log In
+                </a>
               </Button>
             </div>
           ) : loadingPortal ? (
@@ -178,7 +207,10 @@ export default function VolunteerPage() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg border">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 bg-white p-6 rounded-lg border"
+            >
               {!portalId && (
                 <div className="space-y-2">
                   <Label htmlFor="portalId">Portal ID *</Label>
@@ -190,7 +222,8 @@ export default function VolunteerPage() {
                     required
                   />
                   <p className="text-sm text-gray-500">
-                    You can find the Portal ID in the URL of the disaster relief portal page.
+                    You can find the Portal ID in the URL of the disaster relief
+                    portal page.
                   </p>
                 </div>
               )}
@@ -232,52 +265,70 @@ export default function VolunteerPage() {
                 <Label>Skills & Expertise *</Label>
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="medical" 
+                    <Checkbox
+                      id="medical"
                       checked={skills.includes("Medical")}
                       onCheckedChange={() => handleSkillToggle("Medical")}
                     />
-                    <Label htmlFor="medical" className="text-sm font-normal">Medical</Label>
+                    <Label htmlFor="medical" className="text-sm font-normal">
+                      Medical
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="logistics" 
+                    <Checkbox
+                      id="logistics"
                       checked={skills.includes("Logistics")}
                       onCheckedChange={() => handleSkillToggle("Logistics")}
                     />
-                    <Label htmlFor="logistics" className="text-sm font-normal">Logistics</Label>
+                    <Label htmlFor="logistics" className="text-sm font-normal">
+                      Logistics
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="rescue" 
+                    <Checkbox
+                      id="rescue"
                       checked={skills.includes("Rescue")}
                       onCheckedChange={() => handleSkillToggle("Rescue")}
                     />
-                    <Label htmlFor="rescue" className="text-sm font-normal">Rescue</Label>
+                    <Label htmlFor="rescue" className="text-sm font-normal">
+                      Rescue
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="distribution" 
+                    <Checkbox
+                      id="distribution"
                       checked={skills.includes("Distribution")}
                       onCheckedChange={() => handleSkillToggle("Distribution")}
                     />
-                    <Label htmlFor="distribution" className="text-sm font-normal">Distribution</Label>
+                    <Label
+                      htmlFor="distribution"
+                      className="text-sm font-normal"
+                    >
+                      Distribution
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="coordination" 
+                    <Checkbox
+                      id="coordination"
                       checked={skills.includes("Coordination")}
                       onCheckedChange={() => handleSkillToggle("Coordination")}
                     />
-                    <Label htmlFor="coordination" className="text-sm font-normal">Coordination</Label>
+                    <Label
+                      htmlFor="coordination"
+                      className="text-sm font-normal"
+                    >
+                      Coordination
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="technical" 
+                    <Checkbox
+                      id="technical"
                       checked={skills.includes("Technical")}
                       onCheckedChange={() => handleSkillToggle("Technical")}
                     />
-                    <Label htmlFor="technical" className="text-sm font-normal">Technical</Label>
+                    <Label htmlFor="technical" className="text-sm font-normal">
+                      Technical
+                    </Label>
                   </div>
                 </div>
               </div>
@@ -295,11 +346,7 @@ export default function VolunteerPage() {
               </div>
 
               <div className="pt-4">
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={loading}
-                >
+                <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Processing..." : "Register as Volunteer"}
                 </Button>
               </div>
@@ -309,6 +356,5 @@ export default function VolunteerPage() {
       </main>
       <SiteFooter />
     </div>
-  )
+  );
 }
-

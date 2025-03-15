@@ -73,7 +73,7 @@ export default function Home() {
                 </h1>
                 <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
                   Kutumbakam empowers communities to create, coordinate, and contribute to disaster relief efforts in
-                  real-time, embodying the spirit of "The World is One Family."
+                  real-time, embodying the spirit of &quot;The World is One Family.&quot;
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                   <Button size="lg" className="gap-2" asChild>
@@ -504,8 +504,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "Kutumbakam made it easy to find where help was needed most. The real-time updates and clear
-                    categorization of needs helped us direct our efforts effectively."
+                  &quot;Kutumbakam made it easy to find where help was needed most. The real-time updates and clear
+                    categorization of needs helped us direct our efforts effectively.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -524,8 +524,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "As a coordinator, I was able to quickly set up a portal and connect with volunteers across the
-                    region. The platform's transparency built trust with donors and those affected."
+                  &quot;As a coordinator, I was able to quickly set up a portal and connect with volunteers across the
+                    region. The platform&apos;s transparency built trust with donors and those affected.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -544,8 +544,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "During the landslides, Kutumbakam helped our community receive timely aid. The platform connected
-                    us directly with people who wanted to help, without bureaucracy or delays."
+                  &quot;During the landslides, Kutumbakam helped our community receive timely aid. The platform connected
+                    us directly with people who wanted to help, without bureaucracy or delays.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -563,7 +563,7 @@ export default function Home() {
                 Be Part of the <span className="text-primary">Kutumbakam</span> Community
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Whether you're creating a relief portal, volunteering your skills, or contributing resources, your
+                Whether you&apos;re creating a relief portal, volunteering your skills, or contributing resources, your
                 participation makes a difference.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -583,7 +583,7 @@ export default function Home() {
                 </Link>
               </div>
               <p className="text-gray-600 mt-8 text-sm">
-                "वसुधैव कुटुम्बकम्" — The world is one family. Together, we can overcome any disaster.
+              &quot;वसुधैव कुटुम्बकम्&quot; — The world is one family. Together, we can overcome any disaster.
               </p>
             </div>
           </div>

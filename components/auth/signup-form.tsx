@@ -36,8 +36,11 @@ export function SignupForm() {
     try {
       await signup(email, password, name);
       router.push(redirectUrl);
-    } catch (err: any) {
-      setError(err.message || "Failed to create an account");
+    } catch (err: unknown) {
+      // Fixed: properly handle unknown error type
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to create an account";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -47,7 +50,9 @@ export function SignupForm() {
     <div className="w-full max-w-md mx-auto p-6 space-y-6 bg-white rounded-lg shadow-md">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">Create an Account</h1>
-        <p className="text-gray-500">Join Kutumbakam to help in disaster relief efforts</p>
+        <p className="text-gray-500">
+          Join Kutumbakam to help in disaster relief efforts
+        </p>
       </div>
 
       {error && (
@@ -56,7 +61,7 @@ export function SignupForm() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      
+
       <div className="space-y-4">
         <GoogleSignInButton className="w-full" />
 
@@ -65,7 +70,9 @@ export function SignupForm() {
             <span className="w-full border-t border-gray-300"></span>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-gray-500">or continue with</span>
+            <span className="bg-white px-2 text-gray-500">
+              or continue with
+            </span>
           </div>
         </div>
       </div>
@@ -94,7 +101,7 @@ export function SignupForm() {
             required
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <Input
@@ -132,4 +139,4 @@ export function SignupForm() {
       </div>
     </div>
   );
-} 
+}

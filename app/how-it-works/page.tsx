@@ -551,7 +551,7 @@ export default function HowItWorksPage() {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Make a Difference?</h2>
               <p className="text-xl text-gray-600 mb-8">
-                Join the Kutumbakam community and be part of a movement that's transforming disaster relief
+                Join the Kutumbakam community and be part of a movement that&apos;s transforming disaster relief
                 coordination.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">

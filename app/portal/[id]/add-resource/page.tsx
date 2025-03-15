@@ -1,123 +1,132 @@
-"use client"
+"use client";
 
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/lib/auth-context"
-import { createResourceNeed, getPortal } from "@/lib/db"
-import { AlertCircle, CheckCircle, ChevronLeft } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/lib/auth-context";
+import { createResourceNeed, getPortal } from "@/lib/db";
+import { AlertCircle, CheckCircle, ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-export default function AddResourcePage({ params }: { params: { id: string } }) {
-  // Unwrap params with React.use()
-  const unwrappedParams = React.use(params);
-  const portalId = unwrappedParams.id;
-  
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState<string>("")
-  const [quantity, setQuantity] = useState<number>(1)
-  const [unit, setUnit] = useState("")
-  const [priority, setPriority] = useState<"low" | "medium" | "high">("medium")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [portalLoading, setPortalLoading] = useState(true)
-  const [portalTitle, setPortalTitle] = useState("")
-  
-  const { user } = useAuth()
-  const router = useRouter()
+export default function AddResourcePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const portalId = params.id;
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
+  const [unit, setUnit] = useState("");
+  const [priority, setPriority] = useState<"low" | "medium" | "high">("medium");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [portalLoading, setPortalLoading] = useState(true);
+  const [portalTitle, setPortalTitle] = useState("");
+
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPortal = async () => {
       try {
-        setPortalLoading(true)
-        const portal = await getPortal(portalId)
+        setPortalLoading(true);
+        const portal = await getPortal(portalId);
         if (portal) {
-          setPortalTitle(portal.title)
+          setPortalTitle(portal.title);
         }
       } catch (error) {
-        console.error("Error fetching portal:", error)
+        console.error("Error fetching portal:", error);
       } finally {
-        setPortalLoading(false)
+        setPortalLoading(false);
       }
-    }
+    };
 
     if (portalId) {
-      fetchPortal()
+      fetchPortal();
     }
-  }, [portalId])
+  }, [portalId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (!user) {
-      setError("You must be logged in to add a resource need")
-      return
+      setError("You must be logged in to add a resource need");
+      return;
     }
 
     // Validate form fields
     if (!title || !description || !category || !quantity || !priority) {
-      setError("Please fill in all required fields")
-      return
+      setError("Please fill in all required fields");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const resourceData = {
         portalId,
         title,
         description,
-        category: category as "medicine" | "food" | "shelter" | "clothing" | "water" | "transport" | "other",
+        category: category as
+          | "medicine"
+          | "food"
+          | "shelter"
+          | "clothing"
+          | "water"
+          | "transport"
+          | "other",
         quantity,
         unit,
         priority: priority as "low" | "medium" | "high",
-        status: "needed" as const
-      }
+        status: "needed" as const,
+      };
 
-      await createResourceNeed(resourceData)
-      
-      setSuccess("Resource need added successfully!")
-      
+      await createResourceNeed(resourceData);
+
+      setSuccess("Resource need added successfully!");
+
       // Redirect back to portal page after short delay
       setTimeout(() => {
-        router.push(`/portal/${portalId}`)
-      }, 1500)
-    } catch (err: any) {
-      setError(err.message || "Failed to add resource need")
+        router.push(`/portal/${portalId}`);
+      }, 1500);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to add resource need";
+      setError(errorMessage);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       <SiteHeader />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
-          <Link href={`/portal/${portalId}`} className="inline-flex items-center text-primary hover:underline mb-6">
+          <Link
+            href={`/portal/${portalId}`}
+            className="inline-flex items-center text-primary hover:underline mb-6"
+          >
             <ChevronLeft size={16} className="mr-1" />
             Back to Portal
           </Link>
@@ -127,9 +136,7 @@ export default function AddResourcePage({ params }: { params: { id: string } }) 
               <CardHeader className="pb-3">
                 <CardTitle>Add Resource Need</CardTitle>
                 {!portalLoading && (
-                  <p className="text-sm text-gray-500">
-                    for {portalTitle}
-                  </p>
+                  <p className="text-sm text-gray-500">for {portalTitle}</p>
                 )}
               </CardHeader>
               <CardContent>
@@ -174,18 +181,19 @@ export default function AddResourcePage({ params }: { params: { id: string } }) 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="category">Category *</Label>
-                      <Select
-                        value={category}
-                        onValueChange={setCategory}
-                      >
+                      <Select value={category} onValueChange={setCategory}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="medicine">Medicine & Medical Supplies</SelectItem>
+                          <SelectItem value="medicine">
+                            Medicine & Medical Supplies
+                          </SelectItem>
                           <SelectItem value="food">Food</SelectItem>
                           <SelectItem value="water">Water</SelectItem>
-                          <SelectItem value="shelter">Shelter & Housing</SelectItem>
+                          <SelectItem value="shelter">
+                            Shelter & Housing
+                          </SelectItem>
                           <SelectItem value="clothing">Clothing</SelectItem>
                           <SelectItem value="transport">Transport</SelectItem>
                           <SelectItem value="other">Other</SelectItem>
@@ -197,15 +205,23 @@ export default function AddResourcePage({ params }: { params: { id: string } }) 
                       <Label htmlFor="priority">Priority *</Label>
                       <Select
                         value={priority}
-                        onValueChange={(value) => setPriority(value as "low" | "medium" | "high")}
+                        onValueChange={(value) =>
+                          setPriority(value as "low" | "medium" | "high")
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="high">High - Urgent Need</SelectItem>
-                          <SelectItem value="medium">Medium - Needed Soon</SelectItem>
-                          <SelectItem value="low">Low - Eventually Needed</SelectItem>
+                          <SelectItem value="high">
+                            High - Urgent Need
+                          </SelectItem>
+                          <SelectItem value="medium">
+                            Medium - Needed Soon
+                          </SelectItem>
+                          <SelectItem value="low">
+                            Low - Eventually Needed
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -251,5 +267,5 @@ export default function AddResourcePage({ params }: { params: { id: string } }) 
       </main>
       <SiteFooter />
     </div>
-  )
-} 
+  );
+}

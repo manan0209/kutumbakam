@@ -124,7 +124,7 @@ export function VolunteerRegistrationForm() {
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Volunteer ID: #{volunteerId}</AlertTitle>
             <AlertDescription>
-              Please save this ID for reference. You'll need it when reporting for volunteer duties.
+              Please save this ID for reference. You&apos;ll need it when reporting for volunteer duties.
             </AlertDescription>
           </Alert>
 

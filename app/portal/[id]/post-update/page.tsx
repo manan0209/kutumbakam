@@ -1,86 +1,88 @@
-"use client"
+"use client";
 
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { useAuth } from "@/lib/auth-context"
-import { createUpdate } from "@/lib/db"
-import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import React, { useState } from 'react'
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/lib/auth-context";
+import { createUpdate } from "@/lib/db";
+import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function PostUpdatePage({ params }: { params: { id: string } }) {
-  // Unwrap params with React.use()
-  const unwrappedParams = React.use(params);
-  const portalId = unwrappedParams.id;
-  
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [portalTitle, setPortalTitle] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [loadingPortal, setLoadingPortal] = useState(true)
-  const { user } = useAuth()
-  const router = useRouter()
+  const portalId = params.id;
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (!user) {
-      setError("You must be logged in to post an update")
-      return
+      setError("You must be logged in to post an update");
+      return;
     }
 
     if (!title || !content) {
-      setError("Please fill in all required fields")
-      return
+      setError("Please fill in all required fields");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const updateData = {
         portalId,
         title,
         content,
-        createdBy: user.displayName || user.email || user.uid
-      }
+        createdBy: user.displayName || user.email || user.uid,
+      };
 
-      await createUpdate(updateData)
-      setSuccess("Update posted successfully!")
-      
+      await createUpdate(updateData);
+      setSuccess("Update posted successfully!");
+
       // Redirect back to the portal page after a short delay
       setTimeout(() => {
-        router.push(`/portal/${portalId}`)
-      }, 1500)
-    } catch (err: any) {
-      setError(err.message || "Failed to post update")
+        router.push(`/portal/${portalId}`);
+      }, 1500);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to post update";
+      setError(errorMessage);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       <SiteHeader />
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <Link href={`/portal/${portalId}`} className="inline-flex items-center text-gray-600 hover:text-primary mb-6">
+          <Link
+            href={`/portal/${portalId}`}
+            className="inline-flex items-center text-gray-600 hover:text-primary mb-6"
+          >
             <ArrowLeft size={16} className="mr-2" />
             Back to Portal
           </Link>
 
           <h1 className="text-3xl font-bold mb-2">Post an Update</h1>
           <p className="text-gray-600 mb-8">
-            Share important information, progress updates, or requests with everyone involved in this relief effort.
+            Share important information, progress updates, or requests with
+            everyone involved in this relief effort.
           </p>
 
           {error && (
@@ -99,13 +101,20 @@ export default function PostUpdatePage({ params }: { params: { id: string } }) {
 
           {!user ? (
             <div className="text-center p-6 bg-gray-50 rounded-lg border mb-6">
-              <p className="text-gray-600 mb-4">You need to be logged in to post an update.</p>
+              <p className="text-gray-600 mb-4">
+                You need to be logged in to post an update.
+              </p>
               <Button asChild>
-                <a href={`/login?redirect=/portal/${portalId}/post-update`}>Log In</a>
+                <a href={`/login?redirect=/portal/${portalId}/post-update`}>
+                  Log In
+                </a>
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg border">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 bg-white p-6 rounded-lg border"
+            >
               <div className="space-y-2">
                 <Label htmlFor="title">Update Title *</Label>
                 <Input
@@ -140,5 +149,5 @@ export default function PostUpdatePage({ params }: { params: { id: string } }) {
       </main>
       <SiteFooter />
     </div>
-  )
-} 
+  );
+}
