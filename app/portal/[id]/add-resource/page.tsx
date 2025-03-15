@@ -25,9 +25,13 @@ import { createResourceNeed, getPortal } from "@/lib/db"
 import { AlertCircle, CheckCircle, ChevronLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 export default function AddResourcePage({ params }: { params: { id: string } }) {
+  // Unwrap params with React.use()
+  const unwrappedParams = React.use(params);
+  const portalId = unwrappedParams.id;
+  
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState<string>("")
@@ -42,7 +46,6 @@ export default function AddResourcePage({ params }: { params: { id: string } }) 
   
   const { user } = useAuth()
   const router = useRouter()
-  const portalId = params.id
 
   useEffect(() => {
     const fetchPortal = async () => {

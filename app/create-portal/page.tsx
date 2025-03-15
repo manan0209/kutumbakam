@@ -383,14 +383,14 @@ export default function CreatePortalPage() {
                               <SelectValue placeholder="Select a location or enter custom" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">Custom Location</SelectItem>
+                              <SelectItem value="custom">Custom Location</SelectItem>
                               {commonLocations.map(loc => (
                                 <SelectItem key={loc} value={loc}>{loc}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
                           
-                          {!location && (
+                          {location === "custom" && (
                             <Input
                               className="mt-2"
                               placeholder="Enter custom location"
