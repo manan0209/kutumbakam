@@ -1,13 +1,19 @@
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Mail, Github, Linkedin, MessageSquare } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -19,10 +25,15 @@ export default function ContactPage() {
         <section className="bg-gradient-to-b from-saffron-light to-white py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <Badge className="mb-4 bg-saffron text-white hover:bg-saffron-dark">Contact Us</Badge>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Get in Touch with Kutumbakam</h1>
+              <Badge className="mb-4 bg-saffron text-white hover:bg-saffron-dark">
+                Contact
+              </Badge>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Get in Touch
+              </h1>
               <p className="text-xl text-gray-600">
-                Have questions, feedback, or need assistance? We're here to help you make a difference.
+                Have questions about Kutumbakam or want to collaborate? I&apos;d
+                love to hear from you.
               </p>
             </div>
           </div>
@@ -35,7 +46,7 @@ export default function ContactPage() {
               <div className="lg:col-span-2">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Send Us a Message</CardTitle>
+                    <CardTitle>Send a Message</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <form className="space-y-6">
@@ -46,7 +57,11 @@ export default function ContactPage() {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="email">Email Address</Label>
-                          <Input id="email" type="email" placeholder="Enter your email address" />
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="Enter your email address"
+                          />
                         </div>
                       </div>
 
@@ -57,11 +72,19 @@ export default function ContactPage() {
                             <SelectValue placeholder="Select a subject" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="general">General Inquiry</SelectItem>
-                            <SelectItem value="support">Technical Support</SelectItem>
-                            <SelectItem value="feedback">Feedback</SelectItem>
-                            <SelectItem value="partnership">Partnership Opportunities</SelectItem>
-                            <SelectItem value="media">Media Inquiry</SelectItem>
+                            <SelectItem value="feedback">
+                              Project Feedback
+                            </SelectItem>
+                            <SelectItem value="feature">
+                              Feature Suggestion
+                            </SelectItem>
+                            <SelectItem value="collaboration">
+                              Collaboration Opportunity
+                            </SelectItem>
+                            <SelectItem value="hackathon">
+                              Hackathon Question
+                            </SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -70,12 +93,15 @@ export default function ContactPage() {
                         <Label htmlFor="message">Your Message</Label>
                         <Textarea
                           id="message"
-                          placeholder="Please provide details about your inquiry or feedback"
+                          placeholder="Please share your thoughts, questions or suggestions"
                           rows={6}
                         />
                       </div>
 
-                      <Button type="submit" className="w-full bg-primary hover:bg-saffron-dark">
+                      <Button
+                        type="submit"
+                        className="w-full bg-primary hover:bg-saffron-dark"
+                      >
                         Send Message
                       </Button>
                     </form>
@@ -86,55 +112,31 @@ export default function ContactPage() {
               <div>
                 <Card className="mb-6">
                   <CardHeader>
-                    <CardTitle>Contact Information</CardTitle>
+                    <CardTitle>Developer Contact</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <MapPin className="text-primary mt-1" size={20} />
-                      <div>
-                        <h3 className="font-medium">Our Location</h3>
-                        <p className="text-gray-600">
-                          123 Relief Center, Gandhi Nagar
-                          <br />
-                          New Delhi, 110001
-                          <br />
-                          India
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
                       <Mail className="text-primary mt-1" size={20} />
                       <div>
-                        <h3 className="font-medium">Email Us</h3>
-                        <p className="text-gray-600">
-                          info@kutumbakam.org
-                          <br />
-                          support@kutumbakam.org
-                        </p>
+                        <h3 className="font-medium">Email</h3>
+                        <p className="text-gray-600">manangoel0209@gmail.com</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <Phone className="text-primary mt-1" size={20} />
+                      <Github className="text-primary mt-1" size={20} />
                       <div>
-                        <h3 className="font-medium">Call Us</h3>
-                        <p className="text-gray-600">
-                          +91 11 2345 6789
-                          <br />
-                          +91 98765 43210 (Emergency)
-                        </p>
+                        <h3 className="font-medium">GitHub</h3>
+                        <p className="text-gray-600">github.com/manan0209</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <Clock className="text-primary mt-1" size={20} />
+                      <Linkedin className="text-primary mt-1" size={20} />
                       <div>
-                        <h3 className="font-medium">Hours</h3>
+                        <h3 className="font-medium">LinkedIn</h3>
                         <p className="text-gray-600">
-                          Monday - Friday: 9:00 AM - 6:00 PM
-                          <br />
-                          Emergency Support: 24/7
+                          linkedin.com/in/curiosmanan
                         </p>
                       </div>
                     </div>
@@ -143,14 +145,17 @@ export default function ContactPage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Emergency Support</CardTitle>
+                    <CardTitle>About This Project</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600 mb-4">
-                      For urgent matters related to active disaster relief efforts, please contact our emergency support
-                      team.
+                      Kutumbakam was developed as part of a hackathon addressing
+                      the challenge of disaster relief coordination. The project
+                      is a prototype demonstrating potential solutions.
                     </p>
-                    <Button className="w-full bg-destructive hover:bg-red-600">Emergency Contact</Button>
+                    <Button className="w-full bg-primary hover:bg-saffron-dark">
+                      View Project Repository
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -162,19 +167,25 @@ export default function ContactPage() {
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Quick answers to common questions</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Common questions about this hackathon project
+              </p>
             </div>
 
             <div className="max-w-3xl mx-auto space-y-6">
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    How quickly can I expect a response to my inquiry?
+                    Is this a real product that&apos;s currently being used?
                   </h3>
                   <p className="text-gray-600">
-                    We aim to respond to all inquiries within 24-48 hours. For urgent matters related to active disaster
-                    relief efforts, please use our emergency contact channels for immediate assistance.
+                    Kutumbakam is currently a prototype developed for a
+                    hackathon. While it demonstrates functional concepts for
+                    disaster relief coordination, it&apos;s not yet deployed for
+                    actual disaster management.
                   </p>
                 </CardContent>
               </Card>
@@ -182,11 +193,13 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Can I visit your office to discuss a partnership?
+                    Can I contribute to this project?
                   </h3>
                   <p className="text-gray-600">
-                    Yes, we welcome visitors by appointment. Please contact us in advance to schedule a meeting with our
-                    team.
+                    Absolutely! This is an open-source project and contributions
+                    are welcome. Please reach out through the contact form or
+                    visit the GitHub repository to learn how you can get
+                    involved.
                   </p>
                 </CardContent>
               </Card>
@@ -194,11 +207,13 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    How can I report a technical issue with the platform?
+                    What technologies were used to build Kutumbakam?
                   </h3>
                   <p className="text-gray-600">
-                    You can report technical issues through our contact form by selecting "Technical Support" as the
-                    subject. Please provide as much detail as possible, including screenshots if applicable.
+                    This project was built using Next.js, Tailwind CSS, and
+                    Shadcn UI components. It features a responsive design and
+                    focuses on accessibility to ensure the platform can be used
+                    by anyone during disaster situations.
                   </p>
                 </CardContent>
               </Card>
@@ -209,6 +224,5 @@ export default function ContactPage() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
-
