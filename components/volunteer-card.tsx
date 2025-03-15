@@ -1,66 +1,76 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, MessageSquare } from "lucide-react"
+"use client"
 
-interface VolunteerProps {
-  volunteer: {
-    id: string
-    name: string
-    role: string
-    location: string
-    joinedAt: string
-    status: string
-    skills: string[]
-  }
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
+import { Volunteer } from "@/lib/db"
+import { CalendarClock, Mail, Phone, User2 } from "lucide-react"
+import { Badge } from "./ui/badge"
+import { VolunteerShareCard } from "./volunteer-share-card"
+
+interface VolunteerCardProps {
+  volunteer: Volunteer
+  portalName?: string
+  minimal?: boolean
 }
 
-export function VolunteerCard({ volunteer }: VolunteerProps) {
+export function VolunteerCard({ volunteer, portalName = "", minimal = false }: VolunteerCardProps) {
+  const registeredDate = volunteer.registeredAt?.toDate 
+    ? new Date(volunteer.registeredAt.toDate()).toLocaleDateString() 
+    : volunteer.registeredAt 
+      ? new Date(volunteer.registeredAt).toLocaleDateString()
+      : 'N/A';
+
+  if (minimal) {
+    return (
+      <div className="flex items-center justify-between p-3 border rounded-lg gap-4 bg-white">
+        <div>
+          <h4 className="font-medium">{volunteer.name}</h4>
+          <p className="text-sm text-gray-500 mt-0.5">{volunteer.skills.join(", ")}</p>
+        </div>
+        <Badge variant="outline">Registered</Badge>
+      </div>
+    )
+  }
+
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="font-bold text-lg">{volunteer.name}</h3>
-            <div className="text-gray-600">{volunteer.role}</div>
+            <CardTitle className="flex items-center">
+              <User2 className="h-4 w-4 mr-2 text-gray-500" />
+              {volunteer.name}
+            </CardTitle>
+            <CardDescription className="mt-1">
+              {volunteer.skills.join(", ")}
+            </CardDescription>
           </div>
-          <Badge
-            variant={volunteer.status === "active" ? "outline" : "secondary"}
-            className={volunteer.status === "active" ? "bg-love-light text-love border-love hover:bg-love-light" : ""}
-          >
-            {volunteer.status === "active" ? "Active" : volunteer.status}
-          </Badge>
+          <VolunteerShareCard 
+            volunteer={volunteer} 
+            portalName={portalName}
+            variant="icon"
+          />
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="flex flex-col space-y-3">
-          <div className="flex items-center text-sm text-gray-600">
-            <MapPin size={14} className="mr-2" />
-            {volunteer.location}
+      <CardContent className="text-sm space-y-2">
+        <div className="flex items-center gap-2 text-gray-600">
+          <Mail className="h-4 w-4" />
+          <span>{volunteer.email}</span>
+        </div>
+        {volunteer.phone && (
+          <div className="flex items-center gap-2 text-gray-600">
+            <Phone className="h-4 w-4" />
+            <span>{volunteer.phone}</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Clock size={14} className="mr-2" />
-            Joined {volunteer.joinedAt}
-          </div>
-
-          <div className="pt-2">
-            <div className="text-sm font-medium mb-2">Skills</div>
-            <div className="flex flex-wrap gap-1">
-              {volunteer.skills.map((skill, index) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="font-normal bg-compassion-light text-primary border-primary hover:bg-compassion-light"
-                >
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <button className="flex items-center text-sm text-primary hover:text-love-dark mt-2">
-            <MessageSquare size={14} className="mr-1" />
-            Contact Volunteer
-          </button>
+        )}
+        <div className="flex items-center gap-2 text-gray-600">
+          <CalendarClock className="h-4 w-4" />
+          <span>Registered: {registeredDate}</span>
         </div>
       </CardContent>
     </Card>

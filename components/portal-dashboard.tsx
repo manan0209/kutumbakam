@@ -1,5 +1,7 @@
 "use client"
 
+import { PortalShareCard } from "@/components/portal-share-card"
+import { SocialShare } from "@/components/social-share"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -132,6 +134,13 @@ export function PortalDashboard({ portalId }: PortalDashboardProps) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">{portal.title} Dashboard</h2>
         <div className="flex items-center gap-2">
+          <SocialShare
+            title={portal.title}
+            description={portal.description}
+            url={typeof window !== "undefined" ? window.location.href : ""}
+            variant="icon"
+          />
+          <PortalShareCard portal={portal} variant="icon" />
           <span className="text-sm text-gray-600">Time Range:</span>
           <div className="flex border rounded-md overflow-hidden">
             <button 
@@ -399,7 +408,11 @@ export function PortalDashboard({ portalId }: PortalDashboardProps) {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {volunteers.slice(0, 6).map(volunteer => (
-                  <VolunteerCard key={volunteer.id} volunteer={volunteer} />
+                  <VolunteerCard 
+                    key={volunteer.id} 
+                    volunteer={volunteer} 
+                    portalName={portal.title}
+                  />
                 ))}
               </div>
               

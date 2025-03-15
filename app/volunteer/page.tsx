@@ -14,6 +14,7 @@ import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { VolunteerShareCard } from "@/components/volunteer-share-card"
 
 export default function VolunteerPage() {
   const [name, setName] = useState("")
@@ -27,6 +28,7 @@ export default function VolunteerPage() {
   const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(false)
   const [loadingPortal, setLoadingPortal] = useState(false)
+  const [registeredVolunteer, setRegisteredVolunteer] = useState<Volunteer | null>(null)
   const { user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -70,6 +72,7 @@ export default function VolunteerPage() {
     e.preventDefault()
     setError("")
     setSuccess("")
+    setRegisteredVolunteer(null)
 
     if (!user) {
       setError("You must be logged in to register as a volunteer")
@@ -94,15 +97,14 @@ export default function VolunteerPage() {
         availability
       }
 
-      await registerVolunteer(volunteerData)
+      const newVolunteer = await registerVolunteer(volunteerData)
+      setRegisteredVolunteer(newVolunteer as Volunteer)
       setSuccess("Volunteer registration successful!")
       
-      // Redirect back to the portal page after a short delay
-      setTimeout(() => {
-        router.push(`/portal/${portalId}`)
-      }, 1500)
+      // Don't redirect immediately so they can see the volunteer card
     } catch (err: any) {
       setError(err.message || "Failed to register as volunteer")
+      setRegisteredVolunteer(null)
     } finally {
       setLoading(false)
     }
@@ -139,6 +141,29 @@ export default function VolunteerPage() {
               <CheckCircle className="h-4 w-4 text-green-600" />
               <AlertDescription>{success}</AlertDescription>
             </Alert>
+          )}
+
+          {registeredVolunteer && (
+            <div className="bg-green-50 rounded-lg border border-green-100 p-6 mb-6 text-center">
+              <h3 className="text-lg font-medium text-green-800 mb-3">
+                Thank you for registering as a volunteer!
+              </h3>
+              <p className="text-green-700 mb-6">
+                You can now download your volunteer card or share it on social media.
+              </p>
+              <VolunteerShareCard 
+                volunteer={registeredVolunteer}
+                portalName={portalTitle}
+              />
+              <div className="mt-6 text-sm text-gray-600">
+                You will be redirected to the portal page in 10 seconds, or you can go back manually.
+              </div>
+              {setTimeout(() => {
+                if (registeredVolunteer) {
+                  router.push(`/portal/${registeredVolunteer.portalId}`);
+                }
+              }, 10000)}
+            </div>
           )}
 
           {!user ? (

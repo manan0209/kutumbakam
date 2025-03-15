@@ -188,13 +188,22 @@ export default function CreatePortalPage() {
       return
     }
 
-    const finalLocation = location || customLocation
+    const finalLocation = location === "custom" ? customLocation : location
 
     setLoading(true)
 
     try {
-      // In a real app, we'd upload images to storage and get URLs
-      // For this demo, we'll just create the portal with mock image URLs
+      // Determine the image to use
+      let imageUrl;
+      if (images.length > 0) {
+        // In a real app, you'd upload these and get the URL
+        imageUrl = "/placeholder.svg";
+      } else if (selectedTemplate) {
+        // Use the template image if a template was selected
+        const template = disasterTemplates.find(t => t.id === selectedTemplate);
+        imageUrl = template?.image;
+      }
+
       const portalData = {
         title,
         description,
@@ -202,7 +211,7 @@ export default function CreatePortalPage() {
         urgency,
         createdBy: user.uid,
         status: "active" as const,
-        image: images.length > 0 ? "/placeholder.svg" : undefined
+        image: imageUrl
       }
 
       const newPortal = await createPortal(portalData)
@@ -330,14 +339,14 @@ export default function CreatePortalPage() {
                                   <SelectValue placeholder="Select a location or enter custom" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="">Custom Location</SelectItem>
+                                  <SelectItem value="custom">Custom Location</SelectItem>
                                   {commonLocations.map(loc => (
                                     <SelectItem key={loc} value={loc}>{loc}</SelectItem>
                                   ))}
                                 </SelectContent>
                               </Select>
                               
-                              {!location && (
+                              {location === "custom" && (
                                 <Input
                                   className="mt-2"
                                   placeholder="Enter custom location"
@@ -573,7 +582,7 @@ export default function CreatePortalPage() {
                     </Button>
                     <Button 
                       onClick={handleSubmit} 
-                      disabled={loading || !title || !description || (!location && !customLocation)}
+                      disabled={loading || !title || !description || (location === "custom" ? !customLocation : !location)}
                     >
                       {loading ? "Creating Portal..." : "Create Disaster Relief Portal"}
                     </Button>

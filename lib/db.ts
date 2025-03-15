@@ -150,7 +150,7 @@ export async function registerVolunteer(volunteerData: Omit<Volunteer, "id" | "r
   };
   
   const docRef = await addDoc(volunteerRef, newVolunteer);
-  return { id: docRef.id, ...newVolunteer };
+  return { id: docRef.id, ...newVolunteer } as Volunteer;
 }
 
 export async function getVolunteers(portalId: string) {
