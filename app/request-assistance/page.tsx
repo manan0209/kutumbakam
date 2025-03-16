@@ -18,8 +18,8 @@ import { useAuth } from "@/lib/auth-context";
 import {
   getPortal,
   getResourceNeeds,
-  updateResourceNeed,
   ResourceNeed,
+  updateResourceNeed,
 } from "@/lib/db";
 import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
@@ -59,7 +59,10 @@ export default function RequestAssistancePage() {
       if (portal) {
         setPortalTitle(portal.title);
         const resources = await getResourceNeeds(id);
-        setResourceNeeds(resources.filter((r) => r.status !== "fulfilled"));
+        // Filter out fulfilled resources AND those without IDs
+        setResourceNeeds(
+          resources.filter((r) => r.status !== "fulfilled" && r.id !== undefined) as ResourceNeed[]
+        );
       }
     } catch (error) {
       console.error("Error fetching portal details:", error);
@@ -227,11 +230,13 @@ export default function RequestAssistancePage() {
                         <SelectValue placeholder="Select a resource to contribute" />
                       </SelectTrigger>
                       <SelectContent>
-                        {resourceNeeds.map((resource) => (
-                          <SelectItem key={resource.id} value={resource.id}>
-                            {resource.title} ({resource.quantity} needed)
-                          </SelectItem>
-                        ))}
+                        {resourceNeeds.map((resource) => 
+                          resource.id ? (
+                            <SelectItem key={resource.id} value={resource.id}>
+                              {resource.title} ({resource.quantity} needed)
+                            </SelectItem>
+                          ) : null
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
