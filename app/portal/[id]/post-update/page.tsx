@@ -11,11 +11,12 @@ import { useAuth } from "@/lib/auth-context";
 import { createUpdate } from "@/lib/db";
 import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React, { useState } from "react";
 
-export default function PostUpdatePage({ params }: { params: { id: string } }) {
-  const portalId = params.id;
+export default function PostUpdatePage() {
+  const params = useParams();
+  const portalId = params.id as string;
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
