@@ -8,7 +8,7 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { Volunteer } from "@/lib/db"
-import { Timestamp } from "firebase/firestore"; // Add this import
+import { Timestamp } from "firebase/firestore"
 import { CalendarClock, Mail, Phone, User2 } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { VolunteerShareCard } from "./volunteer-share-card"
@@ -27,9 +27,11 @@ export function VolunteerCard({ volunteer, portalName = "", minimal = false }: V
     if (volunteer.registeredAt instanceof Timestamp) {
       registeredDate = volunteer.registeredAt.toDate().toLocaleDateString();
     } 
-    // Otherwise treat as Date or string
+    // Otherwise handle it based on its type
     else {
-      registeredDate = new Date(volunteer.registeredAt as any).toLocaleDateString();
+      // Convert to appropriate type without using 'any'
+      const timestamp = volunteer.registeredAt as (string | number | Date);
+      registeredDate = new Date(timestamp).toLocaleDateString();
     }
   }
 
