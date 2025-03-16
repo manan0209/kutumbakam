@@ -1,15 +1,15 @@
 "use client";
 
 import {
-    GoogleAuthProvider,
-    User,
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut,
-    updateProfile
+  GoogleAuthProvider,
+  User,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile
 } from "firebase/auth";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { auth } from "./firebase";
@@ -17,7 +17,8 @@ import { auth } from "./firebase";
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  signup: (email: string, password: string, displayName?: string) => Promise<void>;
+  // Update return types to match actual implementations
+  signup: (email: string, password: string, displayName?: string) => Promise<User>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -100,4 +101,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {!loading && children}
     </AuthContext.Provider>
   );
-} 
+}
