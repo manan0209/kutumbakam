@@ -15,23 +15,16 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth-context";
-import { getPortal, getResourceNeeds, updateResourceNeed } from "@/lib/db";
+import {
+  getPortal,
+  getResourceNeeds,
+  updateResourceNeed,
+  ResourceNeed,
+} from "@/lib/db";
 import { AlertCircle, ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-// Define proper type for resource needs
-interface ResourceNeed {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  quantity: number;
-  unit?: string;
-  priority: "low" | "medium" | "high";
-  status: "needed" | "partially_fulfilled" | "fulfilled";
-}
 
 export default function RequestAssistancePage() {
   const [portalId, setPortalId] = useState("");
