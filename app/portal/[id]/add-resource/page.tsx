@@ -19,15 +19,12 @@ import { useAuth } from "@/lib/auth-context";
 import { createResourceNeed, getPortal } from "@/lib/db";
 import { AlertCircle, CheckCircle, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export default function AddResourcePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const portalId = params.id;
+export default function AddResourcePage() {
+  const params = useParams();
+  const portalId = params.id as string;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
