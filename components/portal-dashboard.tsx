@@ -30,11 +30,22 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface PortalDashboardProps {
   portalId: string;
+}
+
+function adaptUpdateForCard(update: Update) {
+  return {
+    id: update.id || '',
+    title: update.title,
+    content: update.content,
+    author: update.createdBy,  // Map createdBy to author
+    timestamp: update.createdAt?.toDate().toISOString() || new Date().toISOString(), // Convert Timestamp to string
+    type: 'update' // Add missing type field with default value
+  };
 }
 
 export function PortalDashboard({ portalId }: PortalDashboardProps) {
@@ -532,7 +543,10 @@ export function PortalDashboard({ portalId }: PortalDashboardProps) {
               {updates.length > 0 ? (
                 <div className="space-y-6">
                   {updates.map((update) => (
-                    <UpdateCard key={update.id} update={update} />
+                    <UpdateCard 
+                      key={update.id} 
+                      update={adaptUpdateForCard(update)} 
+                    />
                   ))}
                 </div>
               ) : (
