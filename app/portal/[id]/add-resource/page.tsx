@@ -27,9 +27,7 @@ export default function AddResourcePage({
 }: {
   params: { id: string };
 }) {
-  // Unwrap params with React.use()
-  const unwrappedParams = React.use(params);
-  const portalId = unwrappedParams.id;
+  const portalId = params.id;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
