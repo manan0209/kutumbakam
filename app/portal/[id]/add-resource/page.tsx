@@ -22,11 +22,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export default function AddResourcePage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type PageProps = {
+  params: {
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default function AddResourcePage({ params }: PageProps) {
   const portalId = params.id;
 
   const [title, setTitle] = useState("");
