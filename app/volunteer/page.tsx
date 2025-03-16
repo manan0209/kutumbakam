@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { VolunteerShareCard } from "@/components/volunteer-share-card";
+import { Timestamp } from "firebase/firestore";
 
 // Define the Volunteer interface
 interface Volunteer {
@@ -26,7 +27,8 @@ interface Volunteer {
   phone?: string;
   skills: string[];
   availability: string;
-  createdAt?: any; // This is from Firebase timestamp
+  createdAt?: Timestamp; // This is from Firebase timestamp
+  registeredAt: Timestamp | null;
   status?: "active" | "inactive";
 }
 
@@ -47,6 +49,21 @@ export default function VolunteerPage() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let redirectTimer: NodeJS.Timeout | null = null;
+
+    if (registeredVolunteer) {
+      redirectTimer = setTimeout(() => {
+        router.push(`/portal/${registeredVolunteer.portalId}`);
+      }, 10000);
+    }
+    return () => {
+      if (redirectTimer) {
+        clearTimeout(redirectTimer);
+      }
+    };
+  }, [registeredVolunteer, router]);
 
   useEffect(() => {
     const id = searchParams.get("portalId");
@@ -73,7 +90,7 @@ export default function VolunteerPage() {
     } finally {
       setLoadingPortal(false);
     }
-  }
+  };
 
   const handleSkillToggle = (skill: string) => {
     setSkills((prev) =>
