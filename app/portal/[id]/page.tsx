@@ -1,11 +1,13 @@
-"use client"
+"use client";
 
-import { PortalDashboard } from "@/components/portal-dashboard"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
+import { PortalDashboard } from "@/components/portal-dashboard";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { useParams } from "next/navigation";
 
-export default function PortalPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function PortalPage() {
+  const params = useParams();
+  const id = params.id as string;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -15,5 +17,5 @@ export default function PortalPage({ params }: { params: { id: string } }) {
       </main>
       <SiteFooter />
     </div>
-  )
+  );
 }
