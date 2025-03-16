@@ -1,13 +1,14 @@
 "use client"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card"
 import { Volunteer } from "@/lib/db"
+import { Timestamp } from "firebase/firestore"; // Add this import
 import { CalendarClock, Mail, Phone, User2 } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { VolunteerShareCard } from "./volunteer-share-card"
@@ -19,11 +20,18 @@ interface VolunteerCardProps {
 }
 
 export function VolunteerCard({ volunteer, portalName = "", minimal = false }: VolunteerCardProps) {
-  const registeredDate = volunteer.registeredAt?.toDate 
-    ? new Date(volunteer.registeredAt.toDate()).toLocaleDateString() 
-    : volunteer.registeredAt 
-      ? new Date(volunteer.registeredAt).toLocaleDateString()
-      : 'N/A';
+  let registeredDate = 'N/A';
+  
+  if (volunteer.registeredAt) {
+    // Check if it's a Firestore Timestamp object
+    if (volunteer.registeredAt instanceof Timestamp) {
+      registeredDate = volunteer.registeredAt.toDate().toLocaleDateString();
+    } 
+    // Otherwise treat as Date or string
+    else {
+      registeredDate = new Date(volunteer.registeredAt as any).toLocaleDateString();
+    }
+  }
 
   if (minimal) {
     return (
