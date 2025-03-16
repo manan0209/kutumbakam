@@ -1,15 +1,30 @@
-"use client"
+"use client";
 
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { DisasterPortal, getActivePortals } from "@/lib/db"
-import { ArrowRight, Calendar, Globe, Heart, MapPin, Package, Users } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { DisasterPortal, getActivePortals } from "@/lib/db";
+import {
+  ArrowRight,
+  Calendar,
+  Globe,
+  Heart,
+  MapPin,
+  Package,
+  Users,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 // Success stories
 const successStories = [
@@ -18,43 +33,44 @@ const successStories = [
     title: "Kerala Floods 2018",
     description: "How 10,000 volunteers coordinated to rescue 50,000 people",
     impact: "50,000 people rescued",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/img (4).png",
   },
   {
     id: "2",
     title: "Odisha Cyclone Fani",
     description: "Community-led evacuation that saved thousands of lives",
     impact: "1.2 million people evacuated",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/img (2).png",
   },
   {
     id: "3",
     title: "Gujarat Earthquake Relief",
-    description: "Rebuilding 200 homes in record time through volunteer coordination",
+    description:
+      "Rebuilding 200 homes in record time through volunteer coordination",
     impact: "200 homes rebuilt",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/img (3).png",
   },
-]
+];
 
 export default function Home() {
-  const [activePortals, setActivePortals] = useState<DisasterPortal[]>([])
-  const [loading, setLoading] = useState(true)
+  const [activePortals, setActivePortals] = useState<DisasterPortal[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPortals = async () => {
       try {
-        setLoading(true)
-        const portals = await getActivePortals()
-        setActivePortals(portals)
+        setLoading(true);
+        const portals = await getActivePortals();
+        setActivePortals(portals);
       } catch (error) {
-        console.error("Error fetching active portals:", error)
+        console.error("Error fetching active portals:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchPortals()
-  }, [])
+    fetchPortals();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -67,13 +83,17 @@ export default function Home() {
           <div className="container mx-auto px-4 relative">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="text-center lg:text-left">
-                <Badge className="mb-4 bg-love text-white hover:bg-love-dark">वसुधैव कुटुम्बकम्</Badge>
+                <Badge className="mb-4 bg-love text-white hover:bg-love-dark">
+                  वसुधैव कुटुम्बकम्
+                </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-                  Unite in Compassion, <span className="text-primary">Respond as One</span>
+                  Unite in Compassion,{" "}
+                  <span className="text-primary">Respond as One</span>
                 </h1>
                 <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-                  Kutumbakam empowers communities to create, coordinate, and contribute to disaster relief efforts in
-                  real-time, embodying the spirit of &quot;The World is One Family.&quot;
+                  Kutumbakam empowers communities to create, coordinate, and
+                  contribute to disaster relief efforts in real-time, embodying
+                  the spirit of &quot;The World is One Family.&quot;
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                   <Button size="lg" className="gap-2" asChild>
@@ -99,7 +119,7 @@ export default function Home() {
                 <div className="absolute -top-6 -left-6 w-24 h-24 bg-support-light rounded-full opacity-50"></div>
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-love-light rounded-full opacity-50"></div>
                 <Image
-                  src="/placeholder.svg?height=500&width=600"
+                  src="/img (1).png"
                   alt="People helping during disaster relief"
                   width={600}
                   height={500}
@@ -120,9 +140,12 @@ export default function Home() {
                     <div className="w-16 h-16 bg-love-light rounded-full flex items-center justify-center mb-4">
                       <Package className="text-primary h-8 w-8" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">Contribute Resources</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Contribute Resources
+                    </h3>
                     <p className="text-gray-600 mb-4">
-                      Provide essential supplies and resources to those affected by disasters in your community.
+                      Provide essential supplies and resources to those affected
+                      by disasters in your community.
                     </p>
                     <Button
                       variant="outline"
@@ -140,9 +163,12 @@ export default function Home() {
                     <div className="w-16 h-16 bg-compassion-light rounded-full flex items-center justify-center mb-4">
                       <Users className="text-primary h-8 w-8" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">Become a Volunteer</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Become a Volunteer
+                    </h3>
                     <p className="text-gray-600 mb-4">
-                      Offer your time and skills to help those affected by disasters in your community or beyond.
+                      Offer your time and skills to help those affected by
+                      disasters in your community or beyond.
                     </p>
                     <Button
                       variant="outline"
@@ -160,9 +186,12 @@ export default function Home() {
                     <div className="w-16 h-16 bg-support-light rounded-full flex items-center justify-center mb-4">
                       <Globe className="text-primary h-8 w-8" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">Create Relief Portal</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Create Relief Portal
+                    </h3>
                     <p className="text-gray-600 mb-4">
-                      Start a coordination hub for disaster relief efforts in your area or for a specific disaster.
+                      Start a coordination hub for disaster relief efforts in
+                      your area or for a specific disaster.
                     </p>
                     <Button
                       variant="outline"
@@ -190,11 +219,15 @@ export default function Home() {
                 <div className="text-gray-700">Registered Volunteers</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">₹2Cr+</div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  ₹2Cr+
+                </div>
                 <div className="text-gray-700">Resources Mobilized</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">100K+</div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  100K+
+                </div>
                 <div className="text-gray-700">People Helped</div>
               </div>
             </div>
@@ -205,7 +238,9 @@ export default function Home() {
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Active Disaster Relief Portals</h2>
+              <h2 className="text-3xl font-bold">
+                Active Disaster Relief Portals
+              </h2>
               <Button variant="outline" className="gap-2" asChild>
                 <Link href="/portals">
                   View All
@@ -213,7 +248,7 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-            
+
             {loading ? (
               <div className="flex justify-center items-center h-64">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -221,16 +256,21 @@ export default function Home() {
             ) : activePortals.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {activePortals.map((portal) => (
-                  <Card key={portal.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  <Card
+                    key={portal.id}
+                    className="overflow-hidden hover:shadow-md transition-shadow"
+                  >
                     <div className="relative h-48">
-                      <Image 
-                        src={portal.image || "/placeholder.svg"} 
+                      <Image
+                        src={portal.image || "/placeholder.svg"}
                         alt={portal.title}
                         fill
                         className="object-cover"
                       />
-                      <Badge 
-                        variant={portal.urgency === "high" ? "destructive" : "outline"}
+                      <Badge
+                        variant={
+                          portal.urgency === "high" ? "destructive" : "outline"
+                        }
                         className="absolute top-3 right-3"
                       >
                         {portal.urgency === "high" ? "Urgent" : "Active"}
@@ -244,7 +284,9 @@ export default function Home() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-gray-600 line-clamp-2 mb-4">{portal.description}</p>
+                      <p className="text-gray-600 line-clamp-2 mb-4">
+                        {portal.description}
+                      </p>
                       <div className="flex justify-between text-sm text-gray-500">
                         <div className="flex items-center gap-1">
                           <Users size={14} />
@@ -259,12 +301,15 @@ export default function Home() {
                     <CardFooter className="flex justify-between">
                       <div className="text-xs text-gray-500 flex items-center">
                         <Calendar size={12} className="mr-1" />
-                        Created {portal.createdAt ? new Date(portal.createdAt.toDate()).toLocaleDateString() : 'Recently'}
+                        Created{" "}
+                        {portal.createdAt
+                          ? new Date(
+                              portal.createdAt.toDate()
+                            ).toLocaleDateString()
+                          : "Recently"}
                       </div>
                       <Button size="sm" asChild>
-                        <Link href={`/portal/${portal.id}`}>
-                          View Portal
-                        </Link>
+                        <Link href={`/portal/${portal.id}`}>View Portal</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -272,7 +317,9 @@ export default function Home() {
               </div>
             ) : (
               <div className="text-center py-12 bg-white rounded-lg border">
-                <p className="text-gray-500 mb-4">No active disaster relief portals at the moment.</p>
+                <p className="text-gray-500 mb-4">
+                  No active disaster relief portals at the moment.
+                </p>
                 <Button asChild>
                   <Link href="/create">Create a Portal</Link>
                 </Button>
@@ -293,7 +340,7 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="overflow-hidden hover:shadow-md transition-shadow">
                 <CardHeader className="bg-red-50 border-b">
@@ -308,40 +355,54 @@ export default function Home() {
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-red-600 text-xs font-medium">1</span>
+                        <span className="text-red-600 text-xs font-medium">
+                          1
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Medical Supplies</h4>
-                        <p className="text-sm text-gray-600">First aid kits, bandages, antiseptics</p>
+                        <p className="text-sm text-gray-600">
+                          First aid kits, bandages, antiseptics
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-red-600 text-xs font-medium">2</span>
+                        <span className="text-red-600 text-xs font-medium">
+                          2
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Clean Drinking Water</h4>
-                        <p className="text-sm text-gray-600">Bottled water, water purification tablets</p>
+                        <p className="text-sm text-gray-600">
+                          Bottled water, water purification tablets
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-red-600 text-xs font-medium">3</span>
+                        <span className="text-red-600 text-xs font-medium">
+                          3
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Emergency Food</h4>
-                        <p className="text-sm text-gray-600">Non-perishable food items, baby food</p>
+                        <p className="text-sm text-gray-600">
+                          Non-perishable food items, baby food
+                        </p>
                       </div>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter className="border-t pt-4">
                   <Button className="w-full" size="sm" asChild>
-                    <Link href="/resources?priorityFilter=high">View High Priority Needs</Link>
+                    <Link href="/resources?priorityFilter=high">
+                      View High Priority Needs
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>
-              
+
               <Card className="overflow-hidden hover:shadow-md transition-shadow">
                 <CardHeader className="bg-yellow-50 border-b">
                   <CardTitle className="flex items-center gap-2">
@@ -355,40 +416,59 @@ export default function Home() {
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-yellow-600 text-xs font-medium">1</span>
+                        <span className="text-yellow-600 text-xs font-medium">
+                          1
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Hygiene Kits</h4>
-                        <p className="text-sm text-gray-600">Soap, toothpaste, sanitary products</p>
+                        <p className="text-sm text-gray-600">
+                          Soap, toothpaste, sanitary products
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-yellow-600 text-xs font-medium">2</span>
+                        <span className="text-yellow-600 text-xs font-medium">
+                          2
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Blankets & Bedding</h4>
-                        <p className="text-sm text-gray-600">Blankets, sleeping bags, mattresses</p>
+                        <p className="text-sm text-gray-600">
+                          Blankets, sleeping bags, mattresses
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-yellow-600 text-xs font-medium">3</span>
+                        <span className="text-yellow-600 text-xs font-medium">
+                          3
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Baby Supplies</h4>
-                        <p className="text-sm text-gray-600">Diapers, formula, baby clothes</p>
+                        <p className="text-sm text-gray-600">
+                          Diapers, formula, baby clothes
+                        </p>
                       </div>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter className="border-t pt-4">
-                  <Button className="w-full" size="sm" variant="outline" asChild>
-                    <Link href="/resources?priorityFilter=medium">View Medium Priority Needs</Link>
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href="/resources?priorityFilter=medium">
+                      View Medium Priority Needs
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>
-              
+
               <Card className="overflow-hidden hover:shadow-md transition-shadow">
                 <CardHeader className="bg-blue-50 border-b">
                   <CardTitle className="flex items-center gap-2">
@@ -402,35 +482,52 @@ export default function Home() {
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-blue-600 text-xs font-medium">1</span>
+                        <span className="text-blue-600 text-xs font-medium">
+                          1
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Medical Professionals</h4>
-                        <p className="text-sm text-gray-600">Doctors, nurses, paramedics</p>
+                        <p className="text-sm text-gray-600">
+                          Doctors, nurses, paramedics
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-blue-600 text-xs font-medium">2</span>
+                        <span className="text-blue-600 text-xs font-medium">
+                          2
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">Logistics Support</h4>
-                        <p className="text-sm text-gray-600">Transportation, distribution, coordination</p>
+                        <p className="text-sm text-gray-600">
+                          Transportation, distribution, coordination
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-blue-600 text-xs font-medium">3</span>
+                        <span className="text-blue-600 text-xs font-medium">
+                          3
+                        </span>
                       </div>
                       <div>
                         <h4 className="font-medium">General Volunteers</h4>
-                        <p className="text-sm text-gray-600">Relief distribution, shelter management</p>
+                        <p className="text-sm text-gray-600">
+                          Relief distribution, shelter management
+                        </p>
                       </div>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter className="border-t pt-4">
-                  <Button className="w-full" size="sm" variant="outline" asChild>
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    variant="outline"
+                    asChild
+                  >
                     <Link href="/volunteer">Register as Volunteer</Link>
                   </Button>
                 </CardFooter>
@@ -443,18 +540,31 @@ export default function Home() {
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <Badge className="mb-2 bg-love text-white hover:bg-love-dark">Impact Stories</Badge>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Success Stories</h2>
+              <Badge className="mb-2 bg-love text-white hover:bg-love-dark">
+                Impact Stories
+              </Badge>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Success Stories
+              </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Real stories of communities coming together through Kutumbakam to overcome disasters
+                Real stories of communities coming together through Kutumbakam
+                to overcome disasters
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {successStories.map((story) => (
-                <Card key={story.id} className="overflow-hidden transition-all duration-300 hover:shadow-md">
+                <Card
+                  key={story.id}
+                  className="overflow-hidden transition-all duration-300 hover:shadow-md"
+                >
                   <div className="relative h-48 w-full">
-                    <Image src={story.image || "/placeholder.svg"} alt={story.title} fill className="object-cover" />
+                    <Image
+                      src={story.image || "/placeholder.svg"}
+                      alt={story.title}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <CardHeader>
                     <CardTitle>{story.title}</CardTitle>
@@ -482,10 +592,15 @@ export default function Home() {
         <section className="py-20 bg-love-light">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <Badge className="mb-2 bg-primary text-white hover:bg-love-dark">Testimonials</Badge>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Voices from the Community</h2>
+              <Badge className="mb-2 bg-primary text-white hover:bg-love-dark">
+                Testimonials
+              </Badge>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Voices from the Community
+              </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Hear from those who have experienced the power of community-driven disaster relief
+                Hear from those who have experienced the power of
+                community-driven disaster relief
               </p>
             </div>
 
@@ -500,12 +615,15 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Rajesh Singh</h4>
-                      <p className="text-sm text-gray-600">Volunteer, Kerala Floods</p>
+                      <p className="text-sm text-gray-600">
+                        Volunteer, Kerala Floods
+                      </p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                  &quot;Kutumbakam made it easy to find where help was needed most. The real-time updates and clear
-                    categorization of needs helped us direct our efforts effectively.&quot;
+                    &quot;Kutumbakam made it easy to find where help was needed
+                    most. The real-time updates and clear categorization of
+                    needs helped us direct our efforts effectively.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -520,12 +638,16 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Ananya Patel</h4>
-                      <p className="text-sm text-gray-600">Relief Coordinator, Cyclone Amphan</p>
+                      <p className="text-sm text-gray-600">
+                        Relief Coordinator, Cyclone Amphan
+                      </p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                  &quot;As a coordinator, I was able to quickly set up a portal and connect with volunteers across the
-                    region. The platform&apos;s transparency built trust with donors and those affected.&quot;
+                    &quot;As a coordinator, I was able to quickly set up a
+                    portal and connect with volunteers across the region. The
+                    platform&apos;s transparency built trust with donors and
+                    those affected.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -540,12 +662,16 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Meera Kumar</h4>
-                      <p className="text-sm text-gray-600">Affected Resident, Uttarakhand</p>
+                      <p className="text-sm text-gray-600">
+                        Affected Resident, Uttarakhand
+                      </p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                  &quot;During the landslides, Kutumbakam helped our community receive timely aid. The platform connected
-                    us directly with people who wanted to help, without bureaucracy or delays.&quot;
+                    &quot;During the landslides, Kutumbakam helped our community
+                    receive timely aid. The platform connected us directly with
+                    people who wanted to help, without bureaucracy or
+                    delays.&quot;
                   </p>
                 </CardContent>
               </Card>
@@ -558,13 +684,17 @@ export default function Home() {
           <div className="absolute inset-0 bg-heart-pattern opacity-5"></div>
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center">
-              <Badge className="mb-4 bg-primary text-white hover:bg-love-dark">Join The Movement</Badge>
+              <Badge className="mb-4 bg-primary text-white hover:bg-love-dark">
+                Join The Movement
+              </Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Be Part of the <span className="text-primary">Kutumbakam</span> Community
+                Be Part of the <span className="text-primary">Kutumbakam</span>{" "}
+                Community
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Whether you&apos;re creating a relief portal, volunteering your skills, or contributing resources, your
-                participation makes a difference.
+                Whether you&apos;re creating a relief portal, volunteering your
+                skills, or contributing resources, your participation makes a
+                difference.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button size="lg" className="gap-2">
@@ -583,7 +713,8 @@ export default function Home() {
                 </Link>
               </div>
               <p className="text-gray-600 mt-8 text-sm">
-              &quot;वसुधैव कुटुम्बकम्&quot; — The world is one family. Together, we can overcome any disaster.
+                &quot;वसुधैव कुटुम्बकम्&quot; — The world is one family.
+                Together, we can overcome any disaster.
               </p>
             </div>
           </div>
@@ -592,6 +723,5 @@ export default function Home() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
-
